@@ -1,0 +1,33 @@
+#Image med senare version av ubuntu , wordpress och php
+FROM ubuntu:24.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    php \
+    php-mysql \
+    wget \
+    unzip \
+    && apt-get clean
+
+# Skapar folder/directory i filsystem och Nedladd,uppack smat installation av wordpress
+RUN mkdir -p /var/www/html/wordpress
+RUN wget https://wordpress.org/latest.zip -O /tmp/wordpress.zip && unzip /tmp/wordpress.zip -d /var/www/html && rm /tmp/wordpress.zip
+
+# Sätter rättigheter för wordpress
+RUN chown -R www-data:www-data /var/www/html/wordpress && chmod -R 755 /var/www/html/wordpress
+# Första echo definierar servernamnet som localhost, lägger till ett directory-block, Tillåter användning av .htaccess-filer i katalogen genom att sätta kommando AllowOverride All. Sista echo stänger directory blocken som tidigare öppnats.
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    echo "<Directory /var/www/html/wordpress>" >> /etc/apache2/apache2.conf && \
+    echo "AllowOverride All" >> /etc/apache2/apache2.conf && \
+    echo "</Directory>" >> /etc/apache2/apache2.conf
+
+# Aktiverar modulen och konfigurationsändringar.     
+RUN a2enmod rewrite
+# Öppnar port 8080 i pod
+EXPOSE 8080
+# Wordpress katalogen
+WORKDIR /var/www/html/wordpress
+# Starta-stoppa servern med apachectl, -D FOREGROUND talar om för apache-servern att köra i förgrunden istället för bakgrunden.
+# Ligger dockercontainern i bakgrunden skulle den avslutas/stängas ned vid inaktivitet/inga aktiva processer.
+CMD ["apachectl", "-D", "FOREGROUND"]
