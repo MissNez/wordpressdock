@@ -21,12 +21,14 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     echo "<Directory /var/www/html/wordpress>" >> /etc/apache2/apache2.conf && \
     echo "AllowOverride All" >> /etc/apache2/apache2.conf && \
     echo "</Directory>" >> /etc/apache2/apache2.conf
+    
+RUN mkdir -p /etc/apache2/other
 
-RUN echo "<VirtualHost _default_:80>" >> /etc/apache2/sites-enabled/port8080-redirect.conf && \
-    echo "DocumentRoot /var/www/html/wordpress" >> /etc/apache2/sites-enabled/port8080-redirect.conf && \
-    echo "RewriteEngine On" >> /etc/apache2/sites-enabled/port8080-redirect.conf && \
-    echo "RewriteRule ^.*$ http://%{HTTP_HOST}:8080%{REQUEST_URI}" >> /etc/apache2/sites-enabled/port8080-redirect.conf && \
-    echo "</VirtualHost>" >> /etc/apache2/sites-enabled/port8080-redirect.conf
+RUN echo "<VirtualHost _default_:80>" >> /etc/apache2/other/port8080-redirect.conf && \
+    echo "DocumentRoot /var/www/html/wordpress" >> /etc/apache2/other/port8080-redirect.conf && \
+    echo "RewriteEngine On" >> /etc/apache2/other/port8080-redirect.conf && \
+    echo "RewriteRule ^.*$ http://%{HTTP_HOST}:8080%{REQUEST_URI}" >> /etc/apache2/other/port8080-redirect.conf && \
+    echo "</VirtualHost>" >> /etc/apache2/other/port8080-redirect.conf
     # Ovan commandon ändrar apache från att lyssna på port80 till port8080.
     
 # Aktiverar modulen och konfigurationsändringar.     
