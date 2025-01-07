@@ -38,6 +38,7 @@ RUN chmod 777 /var/log/apache2
 RUN chmod 777 /var/log/apache2/error.log 
 RUN chmod 777 /var/log/apache2/access.log
 RUN chmod 777 /var/log/apache2/other_vhosts_access.log
+RUN chmod 777 /var/run/apache2
 
 #RUN echo "<VirtualHost _default_:80>" >> /etc/apache2/other/port8080-redirect.conf && \
 #   echo "DocumentRoot /var/www/html/wordpress" >> /etc/apache2/other/port8080-redirect.conf && \
