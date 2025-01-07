@@ -29,7 +29,7 @@ RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 RUN echo "<VirtualHost *:8080>" >> /etc/apache2/sites-enabled/000-default.conf && \
     echo "ServerAdmin webmaster@localhost" >> /etc/apache2/sites-enabled/000-default.conf && \
-    echo "DocumentRoot /var/www/html" >> /etc/apache2/sites-enabled/000-default.conf && \
+    echo "DocumentRoot /var/www/html/wordpress" >> /etc/apache2/sites-enabled/000-default.conf && \
     echo "ErrorLog /var/log/apache2/error.log" >> /etc/apache2/sites-enabled/000-default.conf && \
     echo "CustomLog /var/log/apache2/access.log combined" >> /etc/apache2/sites-enabled/000-default.conf && \
     echo "</VirtualHost>" >> /etc/apache2/sites-enabled/000-default.conf 
